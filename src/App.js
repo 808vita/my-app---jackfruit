@@ -11,6 +11,7 @@ const App = () => {
 	return (
 		<>
 			<StartingPage startingPageData={startingPageData} />
+
 			<p>New / history </p>
 			<NewHistory newHistoryPageData={newHistoryPageData} />
 			{/* <h2>sample</h2>

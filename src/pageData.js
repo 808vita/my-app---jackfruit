@@ -187,8 +187,8 @@ export const newHistoryPageData = [
 				buttonText2: "Cancel",
 				subtitle: "Salary Income Details",
 				chainId:
-					"Please fill in the following details: Basic, LTA, HRA, Food Allowance.",
-				fiedRequired: [
+					"Please fill in the following details: Basic Pay, LTA, HRA, Food Allowance.",
+				fieldRequired: [
 					{ id: 1, text: "Basic Pay" },
 					{ id: 2, text: "Leave Travel Allowance" },
 					{ id: 3, text: "House Rent Allowance" },
@@ -203,7 +203,7 @@ export const newHistoryPageData = [
 				subtitle: "Exemptions",
 				chainId:
 					"Please fill all applicable fields and leave other fields empty",
-				fiedRequired: [
+				fieldRequired: [
 					{ id: 1, text: "Investments under section 80C" },
 					{ id: 2, text: "Rent", dropdown: "Metro/Non metro city" },
 					{ id: 3, text: "Metro/Non metro city" },

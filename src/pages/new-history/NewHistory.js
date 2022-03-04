@@ -21,7 +21,7 @@ function NewHistory({ newHistoryPageData }) {
 	console.log(cardsData);
 	const handleImg = (data) => {
 		// console.log(data);
-		setShowFull({ show: true, data: data });
+		setShowFull({ show: true, data: data.steps });
 
 		scrollFullImg.current.scrollIntoView({ behavior: "smooth" });
 		const newCardsData = cardsData.map((cardData) =>
@@ -45,9 +45,17 @@ function NewHistory({ newHistoryPageData }) {
 			/>
 
 			<div className="showFull" ref={scrollFullImg}>
-				{showFull.show && (
+				{/* {showFull.show && (
 					<Forms {...showFull.data} handleCloseImg={handleCloseImg} />
-				)}
+				)} */}
+				{showFull.show &&
+					showFull.data.map((formData) => (
+						<Forms
+							key={formData.stepId}
+							{...formData}
+							handleCloseImg={handleCloseImg}
+						/>
+					))}
 			</div>
 
 			{/* {showFullImg.show && <ImgPage {...showFullImg.data} />} */}
