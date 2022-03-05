@@ -124,6 +124,7 @@ const Forms = ({
 													// 	}
 													// }}
 													onChange={(event) => testChange(event, field.text)}
+													onWheel={(e) => e.target.blur()}
 													placeholder="Enter Numbers Only"
 												/>
 											</Form.Group>
@@ -157,7 +158,10 @@ const Forms = ({
 									onClick={
 										step === "secondStep"
 											? () => handleScroll(step)
-											: handleCloseImg
+											: () => {
+													handleCloseImg();
+													formState.setNote(formState.resetNote);
+											  }
 									}
 								>
 									{buttonText2}

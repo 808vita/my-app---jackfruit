@@ -39,9 +39,21 @@ const GlobalState = (props) => {
 		metro: true,
 	});
 
+	const resetNote = {
+		bas: "",
+		lta: "",
+		hra: "",
+		fa: "",
+		inv: "",
+		med: "",
+		rent: "",
+		metro: true,
+	};
+
 	const formState = {
 		note: newNote,
 		setNote: setNewNote,
+		resetNote: resetNote,
 	};
 
 	//get user details
