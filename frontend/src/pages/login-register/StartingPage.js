@@ -1,4 +1,5 @@
 import { useState, useRef } from "react";
+
 import { Container, Row } from "react-bootstrap";
 import CardsNew from "../../components/CardsNew";
 import Header from "../../components/Header";
@@ -30,11 +31,17 @@ function StartingPage({ startingPageData }) {
 				: { ...cardData, active: false }
 		);
 		setCardsData(newCardsData);
+		if (data.header === "Login") {
+			window.history.replaceState(null, `${data.header}`, "/login");
+		} else if (data.header === "Register") {
+			window.history.replaceState(null, `${data.header}`, "/register");
+		}
 	};
 
 	const handleCloseImg = () => {
 		setShowFull({ show: false, data: {} });
 		setCardsData(startingPageData);
+		window.history.replaceState(null, `Home`, "/");
 	};
 
 	return (

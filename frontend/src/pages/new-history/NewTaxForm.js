@@ -1,5 +1,8 @@
-import React, { useRef } from "react";
+import React, { useRef, useContext, useState } from "react";
 import { Container, Form, Button, Card } from "react-bootstrap";
+import { useNavigate } from "react-router-dom";
+
+import { GlobalContext } from "../../GlobalState";
 
 const Forms = ({
 	stepId,
@@ -11,6 +14,22 @@ const Forms = ({
 	fieldRequired,
 	handleCloseImg,
 }) => {
+	const Gcontext = useContext(GlobalContext);
+	const { addRecord, createdRecord, formState } = Gcontext;
+
+	const history = useNavigate();
+
+	// const [note, setNote] = useState({
+	// 	bas: "",
+	// 	lta: "",
+	// 	hra: "",
+	// 	fa: "",
+	// 	inv: "",
+	// 	med: "",
+	// 	rent: "",
+	// 	metro: true,
+	// });
+
 	const scrollStep2 = useRef();
 
 	const handleScroll = (stepName) => {
@@ -27,7 +46,51 @@ const Forms = ({
 			window.scrollTo({ top: y, behavior: "smooth" });
 		}
 	};
+	const testChange = (e, text) => {
+		const taskVariables = {
+			formBasicPay: "bas",
+			formLeaveTravelAllowance: "lta",
+			formHouseRentAllowance: "hra",
+			formFoodAllowance: "fa",
+			formInvestmentsundersection80C: "inv",
+			formRent: "rent",
+			formMetro: "metro",
 
+			formPremiumpaidforMedicalInsurance: "med",
+		};
+		let eventElement = e.nativeEvent.target.id;
+		const mappedVar = taskVariables[eventElement];
+		console.log(eventElement === "formBasicPay");
+
+		console.log(eventElement);
+		console.log(taskVariables);
+
+		console.log(mappedVar);
+
+		if (e.nativeEvent.target.id !== "formMetro") {
+			const regExp = new RegExp("^\\d+$");
+			const isValid = regExp.test(e.nativeEvent.data);
+			if (!isValid) {
+				e.nativeEvent.target.value = "";
+			}
+			formState.setNote({
+				...formState.note,
+				[mappedVar]: e.nativeEvent.target.value,
+			});
+			console.log(formState.note);
+			console.log(e.nativeEvent.target.value);
+			// console.log(e.nativeEvent.target.id);
+		} else {
+			formState.setNote({
+				...formState.note,
+				mappedVar: e.nativeEvent.target.value,
+			});
+			console.log(formState.note);
+
+			// console.log(e.nativeEvent.target.value);
+			// console.log(e.nativeEvent.target.id);
+		}
+	};
 	return (
 		<>
 			<Card body>
@@ -48,21 +111,32 @@ const Forms = ({
 												<Form.Control
 													className="form-element"
 													type="number"
-													onInput={(e) => {
-														// console.log(e.nativeEvent);
-														// console.log(e.nativeEvent.data);
-														// console.log(e.nativeEvent.target.value);
-														const regExp = new RegExp("^\\d+$");
-														const isValid = regExp.test(e.nativeEvent.data);
-														if (!isValid) {
-															e.nativeEvent.target.value = "";
-															//  const originalString = e.nativeEvent.target.value;
-															//     newString = originalString.replace(/G/-, '');
-														}
-													}}
+													// onInput={(e) => {
+													// 	// console.log(e.nativeEvent);
+													// 	// console.log(e.nativeEvent.data);
+													// 	// console.log(e.nativeEvent.target.value);
+													// 	const regExp = new RegExp("^\\d+$");
+													// 	const isValid = regExp.test(e.nativeEvent.data);
+													// 	if (!isValid) {
+													// 		e.nativeEvent.target.value = "";
+													// 		//  const originalString = e.nativeEvent.target.value;
+													// 		//     newString = originalString.replace(/G/-, '');
+													// 	}
+													// }}
+													onChange={(event) => testChange(event, field.text)}
 													placeholder="Enter Numbers Only"
 												/>
 											</Form.Group>
+
+											{field.text === "Rent" && (
+												<Form.Group className="mb-3" controlId={`formMetro`}>
+													<Form.Label className="h3">Metro City</Form.Label>
+													<Form.Select onChange={testChange}>
+														<option>true</option>
+														<option>false</option>
+													</Form.Select>
+												</Form.Group>
+											)}
 										</div>
 									);
 								})}

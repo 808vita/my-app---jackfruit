@@ -206,8 +206,7 @@ export const newHistoryPageData = [
 				fieldRequired: [
 					{ id: 1, text: "Investments under section 80C" },
 					{ id: 2, text: "Rent", dropdown: "Metro/Non metro city" },
-					{ id: 3, text: "Metro/Non metro city" },
-					{ id: 4, text: "Premium paid for Medical Insurance" },
+					{ id: 3, text: "Premium paid for Medical Insurance" },
 				],
 			},
 		],
@@ -248,8 +247,8 @@ export const newHistoryPageData = [
 				fiedRequired: [
 					{ id: 1, text: "Investments under section 80C" },
 					{ id: 2, text: "Rent", dropdown: "Metro/Non metro city" },
-					{ id: 3, text: "Metro/Non metro city" },
-					{ id: 4, text: "Premium paid for Medical Insurance" },
+
+					{ id: 3, text: "Premium paid for Medical Insurance" },
 				],
 			},
 		],
