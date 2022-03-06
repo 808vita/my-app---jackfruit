@@ -15,10 +15,8 @@ dotenv.config();
 startMongoDbConnection(); //just printing wether connected to database or not
 
 app.use(cors());
-app.use(express.json()); //middleware. compulsory
+app.use(express.json());
 
-//Available Routes //if we go on /api/auth this point then we will get the info which providing in ./routes/auth.js location
-// same for notes part
 app.use("/api/auth", userRoute);
 app.use("/api/user", taxDetialsRoute);
 
