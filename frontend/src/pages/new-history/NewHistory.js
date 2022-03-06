@@ -7,19 +7,52 @@ import Header from "../../components/Header";
 
 // import { startingPageData } from "../../pageData";
 import { GlobalContext } from "../../GlobalState";
-import Forms from "./NewTaxForm";
+import NewTaxForm from "./NewTaxForm";
 
 // const dataOnly = pageData[2];
 // const showFullImg = { show: true, data: dataOnly };
 
 function NewHistory({ newHistoryPageData }) {
 	const Gcontext = useContext(GlobalContext);
-	const { getUser, user, getUserRecords, UserRecords } = Gcontext;
+	const { getUser, user, getUserRecords, userRecords, record } = Gcontext;
 
 	const history = useNavigate();
 
 	useEffect(() => {
-		if (!localStorage.getItem("token")) {
+		if (localStorage.getItem("token")) {
+			getUser();
+			getUserRecords();
+			console.log(userRecords);
+
+			localStorage.setItem(
+				"modifiedRecord",
+				JSON.stringify({
+					bas: 0,
+					lta: 0,
+					hra: 0,
+					fa: 0,
+					inv: 0,
+					med: 0,
+					rent: 0,
+					metro: true,
+					_id: 0,
+				})
+			);
+			localStorage.setItem(
+				"createdRecord",
+				JSON.stringify({
+					bas: 0,
+					lta: 0,
+					hra: 0,
+					fa: 0,
+					inv: 0,
+					med: 0,
+					rent: 0,
+					metro: true,
+					_id: 0,
+				})
+			);
+		} else {
 			history("/");
 		}
 	}, []);
@@ -72,11 +105,11 @@ function NewHistory({ newHistoryPageData }) {
 
 			<div className="showFull" ref={scrollFullImg}>
 				{/* {showFull.show && (
-					<Forms {...showFull.data} handleCloseImg={handleCloseImg} />
+					<NewTaxForm {...showFull.data} handleCloseImg={handleCloseImg} />
 				)} */}
 				{showFull.show &&
 					showFull.data.map((formData) => (
-						<Forms
+						<NewTaxForm
 							key={formData.stepId}
 							{...formData}
 							handleCloseImg={handleCloseImg}

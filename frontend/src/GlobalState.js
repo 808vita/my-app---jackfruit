@@ -2,6 +2,7 @@ import React, { useState, createContext } from "react";
 export const GlobalContext = createContext();
 
 const GlobalState = (props) => {
+	const [renderPage, setRenderPage] = useState("");
 	const recordInitial = [];
 	const [record, setRecord] = useState(recordInitial);
 	const [createdRecord, setCreatedRecord] = useState({});
@@ -9,7 +10,7 @@ const GlobalState = (props) => {
 	const userInit = [];
 
 	const [user, setUser] = useState(userInit);
-	const [userRecords, setUserRecords] = useState(userInit);
+	const [userRecords, setUserRecords] = useState({});
 
 	//Add a record
 	const addRecord = async (bas, lta, hra, fa, inv, med, rent, metro) => {
@@ -22,32 +23,64 @@ const GlobalState = (props) => {
 			body: JSON.stringify({ bas, lta, hra, fa, inv, med, rent, metro }),
 		});
 		const note = await response.json();
+		console.log(note);
 		setRecord(record.concat(note));
+		localStorage.setItem("createdRecord", JSON.stringify(note));
+		console.log("added to local");
 		setCreatedRecord(note);
+	};
+
+	/////
+	//Add a record
+	const modifyRecord = async (
+		bas,
+		lta,
+		hra,
+		fa,
+		inv,
+		med,
+		rent,
+		metro,
+		recordId
+	) => {
+		const response = await fetch(`/api/user/record/${recordId}`, {
+			method: "PUT",
+			headers: {
+				"Content-Type": "application/json",
+				token: localStorage.getItem("token"),
+			},
+			body: JSON.stringify({ bas, lta, hra, fa, inv, med, rent, metro }),
+		});
+		const note = await response.json();
+		console.log(note);
+
+		localStorage.setItem("modifiedRecord", JSON.stringify(note));
+		console.log("added to local");
 	};
 
 	// for form state
 
 	const [newNote, setNewNote] = useState({
-		bas: "",
-		lta: "",
-		hra: "",
-		fa: "",
-		inv: "",
-		med: "",
-		rent: "",
+		bas: 0,
+		lta: 0,
+		hra: 0,
+		fa: 0,
+		inv: 0,
+		med: 0,
+		rent: 0,
 		metro: true,
 	});
 
 	const resetNote = {
-		bas: "",
-		lta: "",
-		hra: "",
-		fa: "",
-		inv: "",
-		med: "",
-		rent: "",
+		bas: 0,
+		lta: 0,
+		hra: 0,
+		fa: 0,
+		inv: 0,
+		med: 0,
+		rent: 0,
 		metro: true,
+		_id: 0,
 	};
 
 	const formState = {
@@ -69,7 +102,6 @@ const GlobalState = (props) => {
 		const json = await response.json();
 		console.log(json);
 		setUser(json);
-		console.log(user);
 	};
 
 	//get user records
@@ -84,8 +116,25 @@ const GlobalState = (props) => {
 		console.log(response);
 		const json = await response.json();
 		console.log(json);
+		localStorage.setItem("userRecords", JSON.stringify(json));
 		setUserRecords(json);
 		console.log(userRecords);
+	};
+
+	//get user records
+	const getUserRecord = async (recordId) => {
+		const response = await fetch(`/api/user/record/${recordId}`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				token: localStorage.getItem("token"),
+			},
+		});
+		console.log(response);
+		const json = await response.json();
+		console.log(json);
+		setRecord(json);
+		console.log(record);
 	};
 
 	return (
@@ -97,8 +146,11 @@ const GlobalState = (props) => {
 				getUser,
 				user,
 				getUserRecords,
+				getUserRecord,
 				userRecords,
 				formState,
+				modifyRecord,
+				setRenderPage,
 			}}
 		>
 			{props.children}

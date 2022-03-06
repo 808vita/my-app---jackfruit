@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Link, useParams, useNavigate, useLocation } from "react-router-dom";
+import { useNavigate, useLocation } from "react-router-dom";
 import { Container, Form, Button, Card } from "react-bootstrap";
 
 const Forms = ({ id, img, header, subtitle, chainId, handleCloseImg }) => {

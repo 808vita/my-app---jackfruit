@@ -1,10 +1,10 @@
-import React, { useRef, useContext, useState } from "react";
+import React, { useRef, useContext, useState, useEffect } from "react";
 import { Container, Form, Button, Card } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
 
 import { GlobalContext } from "../../GlobalState";
 
-const NewTaxForm = ({
+const PreviewTaxForm = ({
 	stepId,
 	step,
 	buttonText1,
@@ -12,12 +12,63 @@ const NewTaxForm = ({
 	subtitle,
 	chainId,
 	fieldRequired,
-	handleCloseImg,
 }) => {
 	const Gcontext = useContext(GlobalContext);
-	const { addRecord, createdRecord, formState, record } = Gcontext;
+	const {
+		addRecord,
+		createdRecord,
+		formState,
+		record,
+
+		modifyRecord,
+	} = Gcontext;
 
 	const history = useNavigate();
+
+	// const [newlyCreatedRecord, SetNewlyCreatedRecord]=useState({})
+	const [newlyCreatedRecord, SetNewlyCreatedRecord] = useState({});
+	useEffect(() => {
+		if (localStorage.getItem("token")) {
+			SetNewlyCreatedRecord(JSON.parse(localStorage.getItem("createdRecord")));
+			// SetNewlyCreatedRecord(createdRecord);
+			// SetNewlyCreatedRecord(record);
+			console.log("here");
+		} else {
+			history("/");
+		}
+	}, [record]);
+	const [display, setDisplay] = useState(true);
+	// setDisplay(true);
+
+	const [inputData, setInputData] = useState({
+		bas: 0,
+		lta: 0,
+		hra: 0,
+		fa: 0,
+		inv: 0,
+		med: 0,
+		rent: 0,
+		metro: true,
+		recordId: 0,
+	});
+	useEffect(() => {
+		console.log("from use effect");
+		console.log(newlyCreatedRecord.bas);
+
+		setInputData(newlyCreatedRecord);
+
+		formState.setNote({
+			bas: newlyCreatedRecord.bas,
+			lta: newlyCreatedRecord.lta,
+			hra: newlyCreatedRecord.hra,
+			fa: newlyCreatedRecord.fa,
+			inv: newlyCreatedRecord.inv,
+			med: newlyCreatedRecord.med,
+			rent: newlyCreatedRecord.rent,
+			metro: newlyCreatedRecord.metro,
+			recordId: newlyCreatedRecord._id,
+		});
+	}, [newlyCreatedRecord]);
 
 	// const [note, setNote] = useState({
 	// 	bas: "",
@@ -78,6 +129,7 @@ const NewTaxForm = ({
 				...formState.note,
 				[mappedVar]: e.nativeEvent.target.value,
 			});
+			setInputData({ ...inputData, [mappedVar]: e.nativeEvent.target.value });
 			console.log(formState.note);
 			console.log(e.nativeEvent.target.value);
 			// console.log(e.nativeEvent.target.id);
@@ -86,6 +138,7 @@ const NewTaxForm = ({
 				...formState.note,
 				mappedVar: e.nativeEvent.target.value,
 			});
+			setInputData({ ...inputData, [mappedVar]: e.nativeEvent.target.value });
 			console.log(formState.note);
 
 			// console.log(e.nativeEvent.target.value);
@@ -99,7 +152,7 @@ const NewTaxForm = ({
 
 		console.log("adding record");
 		const newPost = formState.note;
-		addRecord(
+		modifyRecord(
 			newPost.bas,
 			newPost.lta,
 			newPost.hra,
@@ -107,13 +160,26 @@ const NewTaxForm = ({
 			newPost.inv,
 			newPost.med,
 			newPost.rent,
-			newPost.metro
+			newPost.metro,
+			newPost.recordId
 		);
 
-		console.log("added record");
+		console.log("edited record");
+		history("../taxable-income");
 
 		// formState.setNote(formState.resetNote);
-		history("/home/new-tax-filing/preview");
+	};
+
+	const formVariables = {
+		formBasicPay: "bas",
+		formLeaveTravelAllowance: "lta",
+		formHouseRentAllowance: "hra",
+		formFoodAllowance: "fa",
+		formInvestmentsundersection80C: "inv",
+		formRent: "rent",
+		formMetro: "metro",
+
+		formPremiumpaidforMedicalInsurance: "med",
 	};
 	return (
 		<>
@@ -121,8 +187,8 @@ const NewTaxForm = ({
 				<Container fluid className="bodyspacing ImgPage pushdown ">
 					<div className="mt-3 mb-3 card-containers-form ">
 						<div className="card-header-highlight ">
-							<h2 className="text-muted">{subtitle}</h2>
-							<h3 className="text-muted pb-5">{chainId}</h3>
+							<h2 className="text-muted">Preview: {subtitle}</h2>
+							<h3 className="text-muted pb-5">You can edit , if required.</h3>
 							<Form>
 								{fieldRequired.map((field) => {
 									return (
@@ -135,28 +201,26 @@ const NewTaxForm = ({
 												<Form.Control
 													className="form-element"
 													type="number"
-													// onInput={(e) => {
-													// 	// console.log(e.nativeEvent);
-													// 	// console.log(e.nativeEvent.data);
-													// 	// console.log(e.nativeEvent.target.value);
-													// 	const regExp = new RegExp("^\\d+$");
-													// 	const isValid = regExp.test(e.nativeEvent.data);
-													// 	if (!isValid) {
-													// 		e.nativeEvent.target.value = "";
-													// 		//  const originalString = e.nativeEvent.target.value;
-													// 		//     newString = originalString.replace(/G/-, '');
-													// 	}
-													// }}
 													onChange={(event) => recordChange(event, field.text)}
 													onWheel={(e) => e.target.blur()}
 													placeholder="Enter Numbers Only"
+													value={
+														inputData[
+															formVariables[
+																`form${field.text.replace(/\s/g, "")}`
+															]
+														]
+													}
 												/>
 											</Form.Group>
 
 											{field.text === "Rent" && (
 												<Form.Group className="mb-3" controlId={`formMetro`}>
 													<Form.Label className="h3">Metro City</Form.Label>
-													<Form.Select onChange={recordChange}>
+													<Form.Select
+														onChange={recordChange}
+														value={inputData[formVariables[`formMetro`]]}
+													>
 														<option>true</option>
 														<option>false</option>
 													</Form.Select>
@@ -172,30 +236,25 @@ const NewTaxForm = ({
 										step === "firstStep"
 											? () => handleScroll(step)
 											: () => {
-													handleCloseImg();
-
 													console.log("sumbit");
 													previewRecord();
 													console.log(formState.note);
 											  }
 									}
 								>
-									{buttonText1}
+									{step === "firstStep" ? buttonText1 : "Calculate"}
 								</Button>
-								<Button
-									variant="btn btn btn-outline-dark spacinglrtb"
-									type="button"
-									onClick={
-										step === "secondStep"
-											? () => handleScroll(step)
-											: () => {
-													handleCloseImg();
-													formState.setNote(formState.resetNote);
-											  }
-									}
-								>
-									{buttonText2}
-								</Button>
+								{step === "secondStep" && (
+									<Button
+										variant="btn btn btn-outline-dark spacinglrtb"
+										type="button"
+										onClick={
+											step === "secondStep" ? () => handleScroll(step) : null
+										}
+									>
+										{buttonText2}
+									</Button>
+								)}
 							</Form>
 						</div>
 					</div>
@@ -206,4 +265,4 @@ const NewTaxForm = ({
 	);
 };
 
-export default NewTaxForm;
+export default PreviewTaxForm;

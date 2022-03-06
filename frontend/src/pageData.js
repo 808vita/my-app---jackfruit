@@ -198,7 +198,7 @@ export const newHistoryPageData = [
 			{
 				stepId: 2,
 				step: "secondStep",
-				buttonText1: "Next",
+				buttonText1: "Preview",
 				buttonText2: "Previous",
 				subtitle: "Exemptions",
 				chainId:
