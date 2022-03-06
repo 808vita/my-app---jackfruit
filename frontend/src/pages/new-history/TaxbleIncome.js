@@ -17,22 +17,8 @@ function TaxableIncome({ newHistoryPageData }) {
 	let modifiedRecord;
 	useEffect(() => {
 		if (localStorage.getItem("token")) {
-			modifiedRecord = JSON.parse(localStorage.getItem("modifiedRecord"));
+			modifiedRecord = JSON.parse(localStorage.getItem("createdRecord"));
 			getUser();
-			localStorage.setItem(
-				"createdRecord",
-				JSON.stringify({
-					bas: 0,
-					lta: 0,
-					hra: 0,
-					fa: 0,
-					inv: 0,
-					med: 0,
-					rent: 0,
-					metro: true,
-					_id: 0,
-				})
-			);
 
 			// console.log(localStorage.getItem("createdRecord"));
 			// console.log(localStorage.getItem("modifiedRecord"));

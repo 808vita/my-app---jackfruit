@@ -15,14 +15,13 @@ function AllTaxRecords({ newHistoryPageData }) {
 
 	const history = useNavigate();
 	let modifiedRecord;
-	let taxRecords;
+
 	useEffect(() => {
 		if (localStorage.getItem("token")) {
-			modifiedRecord = JSON.parse(localStorage.getItem("modifiedRecord"));
-			taxRecords = JSON.parse(localStorage.getItem("userRecords"));
+			modifiedRecord = JSON.parse(localStorage.getItem("userRecords"));
 
 			getUser();
-
+			console.log(userRecords);
 			localStorage.setItem(
 				"createdRecord",
 				JSON.stringify({
@@ -52,6 +51,8 @@ function AllTaxRecords({ newHistoryPageData }) {
 
 	const [taxInc, setTaxInc] = useState("");
 	const [info, setInfo] = useState({});
+	const [allRecords, setAllRecords] = useState();
+	const [display, setDisplay] = useState(false);
 
 	const taxableIncomeFunc = () => {
 		if (modifiedRecord.metro === true) {
@@ -79,11 +80,26 @@ function AllTaxRecords({ newHistoryPageData }) {
 		}
 	};
 
-	useEffect(() => {
-		taxableIncomeFunc();
-		setInfo(modifiedRecord);
-	}, []);
+	const taxRecords = async () => {
+		const response = await fetch(`/api/user/records`, {
+			method: "GET",
+			headers: {
+				"Content-Type": "application/json",
+				token: localStorage.getItem("token"),
+			},
+		});
+		console.log(response);
+		const json = await response.json();
+		console.log(json);
 
+		return json;
+	};
+
+	const displayEle = async () => {
+		modifiedRecord = await JSON.parse(localStorage.getItem("userRecords"));
+		console.log(modifiedRecord);
+		await setDisplay(true);
+	};
 	///////
 
 	const handleClick = () => {
@@ -101,18 +117,16 @@ function AllTaxRecords({ newHistoryPageData }) {
 				/>
 				<Container fluid>
 					<Row md={3}>
-						{
-							<div
-								className="card border-primary mb-3 d-flex"
-								style={{ maxWidth: "25rem" }}
-							>
-								<div className="card-body">
-									<h4 className="card-title">{taxInc}</h4>
-									<h5 className="card-title">Taxable Income</h5>
-									<p className="card-text">Your total total taxable income.</p>
-								</div>
+						<div
+							className="card border-primary mb-3 d-flex"
+							style={{ maxWidth: "25rem" }}
+						>
+							<div className="card-body">
+								<h4 className="card-title">{taxInc}</h4>
+								<h5 className="card-title">Taxable Income</h5>
+								<p className="card-text">Your total total taxable income.</p>
 							</div>
-						}
+						</div>
 					</Row>
 					<button
 						onClick={handleClick}

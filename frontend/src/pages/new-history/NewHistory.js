@@ -123,7 +123,15 @@ function NewHistory({ newHistoryPageData }) {
 				<Row md={2} sm={1}>
 					{/* <Cards {...dataOnly} /> */}
 					{cardsData.map((card) => {
-						return <CardsNew key={card.id} {...card} handleImg={handleImg} />;
+						return card.id === 1 ? (
+							<CardsNew key={card.id} {...card} handleImg={handleImg} />
+						) : (
+							<CardsNew
+								key={card.id}
+								{...card}
+								handleImg={() => history("/tax-records")}
+							/>
+						);
 					})}
 				</Row>
 			</Container>
