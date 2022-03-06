@@ -1,4 +1,5 @@
 const express = require("express");
+const path = require("path");
 var cors = require("cors");
 
 const startMongoDbConnection = require("./db");
@@ -21,9 +22,17 @@ app.use(express.json()); //middleware. compulsory
 app.use("/api/auth", userRoute);
 app.use("/api/user", taxDetialsRoute);
 
-app.get("/", (req, res) => {
-	res.send("Welcome api is running");
-});
+if (process.env.NODE_ENV === "production") {
+	app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+	app.get("*", (req, res) =>
+		res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+	);
+} else {
+	app.get("/", (req, res) => {
+		res.send("api is running");
+	});
+}
 
 app.listen(port, () => {
 	console.log(`Live on port ${port}`);
