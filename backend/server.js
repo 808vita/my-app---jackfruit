@@ -27,6 +27,6 @@ app.get("*", (req, res) => {
 	res.sendFile(path.join(__dirname, "../build"));
 });
 
-app.listen(port, () => {
+app.listen(process.env.PORT, () => {
 	console.log(`Live on port ${port}`);
 });
