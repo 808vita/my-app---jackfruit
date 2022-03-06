@@ -126,16 +126,7 @@ function NewHistory({ newHistoryPageData }) {
 					{cardsData.map((card) => {
 						return card.id === 1 ? (
 							<CardsNew key={card.id} {...card} handleImg={handleImg} />
-						) : (
-							<CardsNew
-								key={card.id}
-								{...card}
-								handleImg={
-									// () => console.log(taxfullRecords.then((value) => value))
-									() => history("/tax-records")
-								}
-							/>
-						);
+						) : null;
 					})}
 				</Row>
 			</Container>
