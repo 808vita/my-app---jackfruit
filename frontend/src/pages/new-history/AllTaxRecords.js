@@ -10,8 +10,15 @@ import PreviewTaxForm from "./PreviewTaxForm";
 
 function AllTaxRecords({ newHistoryPageData }) {
 	const Gcontext = useContext(GlobalContext);
-	const { getUser, user, getUserRecords, userRecords, record, createdRecord } =
-		Gcontext;
+	const {
+		getUser,
+		user,
+		getUserRecords,
+		userRecords,
+		record,
+		createdRecord,
+		formState,
+	} = Gcontext;
 
 	const history = useNavigate();
 	let modifiedRecord;
@@ -21,7 +28,7 @@ function AllTaxRecords({ newHistoryPageData }) {
 			modifiedRecord = JSON.parse(localStorage.getItem("userRecords"));
 
 			getUser();
-			console.log(userRecords);
+
 			localStorage.setItem(
 				"createdRecord",
 				JSON.stringify({
@@ -51,7 +58,7 @@ function AllTaxRecords({ newHistoryPageData }) {
 
 	const [taxInc, setTaxInc] = useState("");
 	const [info, setInfo] = useState({});
-	const [allRecords, setAllRecords] = useState();
+	const [allRecords, setAllRecords] = useState(formState.resetNote);
 	const [display, setDisplay] = useState(false);
 
 	const taxableIncomeFunc = () => {
@@ -80,7 +87,14 @@ function AllTaxRecords({ newHistoryPageData }) {
 		}
 	};
 
-	const taxRecords = async () => {
+	///////
+
+	const handleClick = () => {
+		history("/home");
+	};
+
+	//get user records
+	const taxRecordsGet = async () => {
 		const response = await fetch(`/api/user/records`, {
 			method: "GET",
 			headers: {
@@ -88,23 +102,23 @@ function AllTaxRecords({ newHistoryPageData }) {
 				token: localStorage.getItem("token"),
 			},
 		});
-		console.log(response);
+		// console.log(response);
 		const json = await response.json();
 		console.log(json);
-
 		return json;
 	};
 
-	const displayEle = async () => {
-		modifiedRecord = await JSON.parse(localStorage.getItem("userRecords"));
-		console.log(modifiedRecord);
-		await setDisplay(true);
-	};
-	///////
+	// const taxfullRecords = taxRecordsGet();
 
-	const handleClick = () => {
-		history("/home");
-	};
+	useEffect(() => {
+		setAllRecords(
+			taxRecordsGet().then((val) => {
+				setDisplay(true);
+				return val;
+			})
+		);
+		console.log(allRecords);
+	}, []);
 
 	return (
 		<>
@@ -117,6 +131,7 @@ function AllTaxRecords({ newHistoryPageData }) {
 				/>
 				<Container fluid>
 					<Row md={3}>
+						{allRecords.user}
 						<div
 							className="card border-primary mb-3 d-flex"
 							style={{ maxWidth: "25rem" }}

@@ -113,10 +113,11 @@ const GlobalState = (props) => {
 				token: localStorage.getItem("token"),
 			},
 		});
-		console.log(response);
+		// console.log(response);
 		const json = await response.json();
-		console.log(json);
+		// console.log(json);
 		localStorage.setItem("userRecords", JSON.stringify(json));
+
 		setUserRecords(json);
 		console.log(userRecords);
 	};

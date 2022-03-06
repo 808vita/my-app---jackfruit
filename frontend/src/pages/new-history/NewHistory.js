@@ -23,6 +23,7 @@ function NewHistory({ newHistoryPageData }) {
 			getUser();
 			getUserRecords();
 			console.log(userRecords);
+			// const recordsBundle = taxfullRecords.then((value) => value);
 
 			localStorage.setItem(
 				"modifiedRecord",
@@ -129,7 +130,10 @@ function NewHistory({ newHistoryPageData }) {
 							<CardsNew
 								key={card.id}
 								{...card}
-								handleImg={() => history("/tax-records")}
+								handleImg={
+									// () => console.log(taxfullRecords.then((value) => value))
+									() => history("/tax-records")
+								}
 							/>
 						);
 					})}
