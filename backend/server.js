@@ -20,10 +20,11 @@ app.use(express.json());
 app.use("/api/auth", userRoute);
 app.use("/api/user", taxDetialsRoute);
 
-app.use(express.static(path.join(__dirname, "../build")));
-app.get("*", (req, res) => {
-	res.sendFile(path.join(__dirname, "frontend", "build", "index.html"));
-});
+app.use(express.static(path.join(__dirname, "/frontend/build")));
+
+app.get("*", (req, res) =>
+	res.sendFile(path.resolve(__dirname, "frontend", "build", "index.html"))
+);
 
 app.listen(process.env.PORT, () => {
 	console.log(`Live on port ${port}`);
