@@ -30,6 +30,10 @@ const PreviewTaxForm = ({
 	useEffect(() => {
 		if (localStorage.getItem("token")) {
 			SetNewlyCreatedRecord(JSON.parse(localStorage.getItem("createdRecord")));
+			localStorage.setItem(
+				"modifiedRecord",
+				JSON.parse(localStorage.getItem("createdRecord"))
+			);
 			// SetNewlyCreatedRecord(createdRecord);
 			// SetNewlyCreatedRecord(record);
 			console.log("here");
@@ -123,45 +127,45 @@ const PreviewTaxForm = ({
 			const regExp = new RegExp("^\\d+$");
 			const isValid = regExp.test(e.nativeEvent.data);
 			if (!isValid) {
-				e.nativeEvent.target.value = "";
+				e.nativeEvent.target.value = 0;
 			}
 			formState.setNote({
 				...formState.note,
-				[mappedVar]: e.nativeEvent.target.value,
+				[mappedVar]: e.nativeEvent.target.value * 1,
 			});
 			setInputData({
 				...inputData,
-				[mappedVar]: e.nativeEvent.target.value,
+				[mappedVar]: e.nativeEvent.target.value * 1,
 			});
 
 			localStorage.setItem(
 				"modifiedRecord",
 				JSON.stringify({
 					...inputData,
-					[mappedVar]: e.nativeEvent.target.value,
+					[mappedVar]: e.nativeEvent.target.value * 1,
 				})
 			);
 			console.log(formState.note);
-			console.log(e.nativeEvent.target.value);
+			console.log(e.nativeEvent.target.value * 1);
 			// console.log(e.nativeEvent.target.id);
 		} else {
 			formState.setNote({
 				...formState.note,
-				mappedVar: e.nativeEvent.target.value,
+				mappedVar: e.nativeEvent.target.value * 1,
 			});
 			setInputData({
 				...inputData,
-				[mappedVar]: e.nativeEvent.target.value,
+				[mappedVar]: e.nativeEvent.target.value * 1,
 			});
 			console.log(formState.note);
 			localStorage.setItem(
 				"modifiedRecord",
 				JSON.stringify({
 					...inputData,
-					[mappedVar]: e.nativeEvent.target.value,
+					[mappedVar]: e.nativeEvent.target.value * 1,
 				})
 			);
-			// console.log(e.nativeEvent.target.value*1);
+			// console.log(e.nativeEvent.target.value*1*1);
 			// console.log(e.nativeEvent.target.id);
 		}
 	};
