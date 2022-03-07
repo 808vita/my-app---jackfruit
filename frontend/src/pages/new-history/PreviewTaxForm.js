@@ -144,6 +144,7 @@ const PreviewTaxForm = ({
 			// console.log(e.nativeEvent.target.value);
 			// console.log(e.nativeEvent.target.id);
 		}
+		localStorage.setItem("modifiedRecord", JSON.stringify(formState.note));
 	};
 
 	const previewRecord = () => {
