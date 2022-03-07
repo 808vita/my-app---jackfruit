@@ -67,6 +67,10 @@ const App = () => {
 							path="/"
 							element={<StartingPage startingPageData={startingPageData} />}
 						/>
+						<Routes
+							path="/home"
+							element={<NewHistory newHistoryPageData={newHistoryPageData} />}
+						/>
 					</Routes>
 				</Router>
 
