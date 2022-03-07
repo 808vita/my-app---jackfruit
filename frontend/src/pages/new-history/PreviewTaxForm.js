@@ -127,21 +127,27 @@ const PreviewTaxForm = ({
 			}
 			formState.setNote({
 				...formState.note,
-				[mappedVar]: e.nativeEvent.target.value,
+				[mappedVar]: e.nativeEvent.target.value * 1,
 			});
-			setInputData({ ...inputData, [mappedVar]: e.nativeEvent.target.value });
+			setInputData({
+				...inputData,
+				[mappedVar]: e.nativeEvent.target.value * 1,
+			});
 			console.log(formState.note);
-			console.log(e.nativeEvent.target.value);
+			console.log(e.nativeEvent.target.value * 1);
 			// console.log(e.nativeEvent.target.id);
 		} else {
 			formState.setNote({
 				...formState.note,
-				mappedVar: e.nativeEvent.target.value,
+				mappedVar: e.nativeEvent.target.value * 1,
 			});
-			setInputData({ ...inputData, [mappedVar]: e.nativeEvent.target.value });
+			setInputData({
+				...inputData,
+				[mappedVar]: e.nativeEvent.target.value * 1,
+			});
 			console.log(formState.note);
 
-			// console.log(e.nativeEvent.target.value);
+			// console.log(e.nativeEvent.target.value*1);
 			// console.log(e.nativeEvent.target.id);
 		}
 		localStorage.setItem("modifiedRecord", JSON.stringify(formState.note));

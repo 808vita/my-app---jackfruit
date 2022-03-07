@@ -72,7 +72,7 @@ const NewTaxForm = ({
 			const regExp = new RegExp("^\\d+$");
 			const isValid = regExp.test(e.nativeEvent.data);
 			if (!isValid) {
-				e.nativeEvent.target.value = "";
+				e.nativeEvent.target.value = 0;
 			}
 			formState.setNote({
 				...formState.note,
