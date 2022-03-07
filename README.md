@@ -31,3 +31,9 @@ can modify at preview stage & Update to the db)
 -And more...
 
 Signup -> Login -> create new ITR -> store to Db -> can modify at preview stage & Update the db -> after confirmation shows taxable income.
+
+(Note for local version:
+'npm start' folder at root &
+cd to frontend 'npm start'
+
+--or you can use concurrently package)
