@@ -123,7 +123,7 @@ const PreviewTaxForm = ({
 			const regExp = new RegExp("^\\d+$");
 			const isValid = regExp.test(e.nativeEvent.data);
 			if (!isValid) {
-				e.nativeEvent.target.value = 0;
+				e.nativeEvent.target.value = "";
 			}
 			formState.setNote({
 				...formState.note,
