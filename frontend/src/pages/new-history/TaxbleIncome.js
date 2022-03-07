@@ -44,7 +44,7 @@ function TaxableIncome({ newHistoryPageData }) {
 			const inv = modifiedRecord.inv;
 			const med = modifiedRecord.med;
 			const rent = modifiedRecord.rent;
-			const appHra = Math.min(0.5 * bas, 0.1 * rent, hra);
+			const appHra = Math.min(0.5 * bas, rent - 0.1 * bas, hra);
 			const answer = Math.round(bas + lta + hra + fa - appHra - inv - med);
 			setTaxInc(answer);
 		} else {
@@ -55,7 +55,7 @@ function TaxableIncome({ newHistoryPageData }) {
 			const inv = modifiedRecord.inv;
 			const med = modifiedRecord.med;
 			const rent = modifiedRecord.rent;
-			const appHra = Math.min(0.4 * bas, 0.1 * rent, hra);
+			const appHra = Math.min(0.4 * bas, rent - 0.1 * bas, hra);
 			const answer = Math.round(bas + lta + hra + fa - appHra - inv - med);
 			setTaxInc(answer);
 		}
