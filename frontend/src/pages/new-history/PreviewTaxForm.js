@@ -54,7 +54,6 @@ const PreviewTaxForm = ({
 	useEffect(() => {
 		console.log("from use effect");
 		console.log(newlyCreatedRecord.bas);
-		localStorage.setItem("modifiedRecord", JSON.stringify(formState.note));
 
 		setInputData(newlyCreatedRecord);
 
@@ -134,6 +133,14 @@ const PreviewTaxForm = ({
 				...inputData,
 				[mappedVar]: e.nativeEvent.target.value * 1,
 			});
+
+			localStorage.setItem(
+				"modifiedRecord",
+				JSON.stringify({
+					...inputData,
+					[mappedVar]: e.nativeEvent.target.value * 1,
+				})
+			);
 			console.log(formState.note);
 			console.log(e.nativeEvent.target.value * 1);
 			// console.log(e.nativeEvent.target.id);
@@ -147,7 +154,13 @@ const PreviewTaxForm = ({
 				[mappedVar]: e.nativeEvent.target.value * 1,
 			});
 			console.log(formState.note);
-
+			localStorage.setItem(
+				"modifiedRecord",
+				JSON.stringify({
+					...inputData,
+					[mappedVar]: e.nativeEvent.target.value * 1,
+				})
+			);
 			// console.log(e.nativeEvent.target.value*1);
 			// console.log(e.nativeEvent.target.id);
 		}
